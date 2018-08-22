@@ -9,6 +9,7 @@ export default class Main extends Component {
     this.state = {
       allUsers: [],
       usersWithThings: []
+      // this could be a boolean value that you use to filter allUsers which you can use to map with Users
     }
     this.withThings = this.withThings.bind(this)
   }

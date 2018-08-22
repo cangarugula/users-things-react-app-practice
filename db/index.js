@@ -22,8 +22,11 @@ Posession.belongsTo(Thing)
 User.hasMany(Posession)
 Thing.hasMany(Posession)
 
-const seed = async () => {
-  let [moe,larry,curly,joe,shep] = await Promise.all([
+const syncAndSeed = async () => {
+
+  await db.sync({force: true})
+
+  const [moe,larry,curly,joe,shep] = await Promise.all([
     User.create({name: 'moe'}),
     User.create({name: 'larry'}),
     User.create({name: 'curly'}),
@@ -31,7 +34,7 @@ const seed = async () => {
     User.create({name: 'shep'})
   ])
 
-  let [foo,bar,bazz] = await Promise.all([
+  const [foo,bar,bazz] = await Promise.all([
     Thing.create({name: 'foo'}),
     Thing.create({name: 'bar'}),
     Thing.create({name: 'bazz'})
@@ -44,22 +47,10 @@ const seed = async () => {
     Posession.create({userId: larry.id, thingId: bar.id}),
     Posession.create({userId: shep.id, thingId: bazz.id})
   ])
-
+  console.log('syncing and seeding')
 }
 
 
-const syncAndSeed = ()=> {
-  db.sync({force:true})
-  .then(()=> {
-    console.log('syncing')
-  })
-  .then(()=> {
-    return seed()
-  })
-  .then(()=> {
-    console.log('seeding')
-  })
-}
 
 module.exports = {
   syncAndSeed,
